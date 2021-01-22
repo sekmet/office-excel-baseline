@@ -338,12 +338,12 @@ function run() {
                   case 0:
                     sheet = context.workbook.worksheets.getActiveWorksheet();
                     headers = [["Product", "Quantity", "Unit Price", "Totals"]];
-                    headerRange = sheet.getRange("A2:D2");
+                    headerRange = sheet.getRange("B2:D2");
                     headerRange.values = headers;
                     headerRange.format.fill.color = "#4472C4";
                     headerRange.format.font.color = "white";
                     productData = [["Almonds", 6, 7.5], ["Coffee", 20, 34.5], ["Chocolate", 10, 9.56]];
-                    dataRange = sheet.getRange("A3:D5");
+                    dataRange = sheet.getRange("B3:D5");
                     dataRange.values = productData;
                     totalFormulas = [["=C3 * D3"], ["=C4 * D4"], ["=C5 * D5"], ["=SUM(E3:E5)"]];
                     totalRange = sheet.getRange("E3:E6");
