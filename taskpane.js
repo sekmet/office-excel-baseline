@@ -293,6 +293,29 @@ Office.initialize = function () {
   document.getElementById("app-body").style.display = "flex";
   document.getElementById("run").onclick = run;
 };
+/*
+async function run() {
+  try {
+    await Excel.run(async context => {
+      /**
+       * Insert your Excel code here
+       * /
+      const range = context.workbook.getSelectedRange();
+
+      // Read the range address
+      range.load("address");
+
+      // Update the fill color
+      range.format.fill.color = "yellow";
+
+      await context.sync();
+      console.log(`The range address was ${range.address}.`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}*/
+
 
 function run() {
   return __awaiter(this, void 0, void 0, function () {
@@ -309,15 +332,25 @@ function run() {
           /*yield*/
           , Excel.run(function (context) {
             return __awaiter(_this, void 0, void 0, function () {
-              var range;
+              var sheet, headers, headerRange, productData, dataRange, totalFormulas, totalRange;
               return __generator(this, function (_a) {
                 switch (_a.label) {
                   case 0:
-                    range = context.workbook.getSelectedRange(); // Read the range address
+                    sheet = context.workbook.worksheets.getActiveWorksheet();
+                    headers = [["Product", "Quantity", "Unit Price", "Totals"]];
+                    headerRange = sheet.getRange("B2:E2");
+                    headerRange.values = headers;
+                    headerRange.format.fill.color = "#4472C4";
+                    headerRange.format.font.color = "white";
+                    productData = [["Almonds", 6, 7.5], ["Coffee", 20, 34.5], ["Chocolate", 10, 9.56]];
+                    dataRange = sheet.getRange("B3:D5");
+                    dataRange.values = productData;
+                    totalFormulas = [["=C3 * D3"], ["=C4 * D4"], ["=C5 * D5"], ["=SUM(E3:E5)"]];
+                    totalRange = sheet.getRange("E3:E6");
+                    totalRange.formulas = totalFormulas;
+                    totalRange.format.font.bold = true; // Display the totals as US dollar amounts.
 
-                    range.load("address"); // Update the fill color
-
-                    range.format.fill.color = "yellow";
+                    totalRange.numberFormat = [["$0.00"]];
                     return [4
                     /*yield*/
                     , context.sync()];
@@ -325,7 +358,6 @@ function run() {
                   case 1:
                     _a.sent();
 
-                    console.log("The range address was " + range.address + ".");
                     return [2
                     /*return*/
                     ];
